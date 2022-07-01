@@ -1,8 +1,8 @@
 baseURL = 'https://blog.sekinet.tokyo/'
-languageCode = 'en-us'
+languageCode = 'ja'
 title = "TARORIN's Blog"
 theme = "hugo-coder"
-defaultcontentlanguage = "en"
+defaultcontentlanguage = "ja"
 
 paginate = 20
 
@@ -29,10 +29,6 @@ disqusShortname = "tarorin"
   colorScheme = "auto"
   hidecolorschemetoggle = false
 
-  #customCSS = ["css/custom.css"]
-  #customSCSS = ["scss/custom.scss"]
-  #customJS = ["js/custom.js"]
-
 [taxonomies]
   category = "categories"
   series = "series"
@@ -45,11 +41,6 @@ disqusShortname = "tarorin"
   icon = "fa fa-github fa-2x"
   weight = 1
   url = "https://github.com/sekinet"
-#[[params.social]]
-#  name = "Gitlab"
-#  icon = "fa fa-gitlab fa-2x"
-#  weight = 2
-#  url = "https://gitlab.com/johndoe/"
 [[params.social]]
   name = "Twitter"
   icon = "fa fa-twitter fa-2x"
