@@ -2,7 +2,7 @@ baseURL = 'https://blog.sekinet.tokyo/'
 languageCode = 'ja'
 title = "TARORIN's Blog"
 theme = "hugo-coder"
-defaultcontentlanguage = "ja"
+defaultcontentlanguage = "en"
 
 paginate = 20
 
