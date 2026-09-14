@@ -3,6 +3,7 @@ languageCode = 'ja'
 title = "TARORIN's Blog"
 theme = "hugo-coder"
 defaultcontentlanguage = "en"
+timeZone = "Asia/Tokyo"
 
 paginate = 20
 
