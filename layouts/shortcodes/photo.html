@@ -1,0 +1,46 @@
+{{- /* Single photo, or one cell when nested inside the `gallery` shortcode.
+       Usage: {{< photo src="foo.jpg" alt="..." caption="..." >}}
+       Posts are page bundles (content/posts/<slug>/index.md); images sit next to index.md
+       as page resources, so they go through Hugo's image pipeline (WebP + srcset). */ -}}
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- $alt := .Get "alt" | default "" -}}
+{{- $caption := .Get "caption" | default "" -}}
+{{- $res := .Page.Resources.GetMatch $src -}}
+{{- if not $res -}}
+  {{- errorf "photo shortcode: %q not found next to %s (%s)" $src .Page.File.Path .Position -}}
+{{- end -}}
+{{- partial "photo-styles.html" .Page -}}
+
+{{- /* Never upscale: clamp every rendition to the source width. */ -}}
+{{- $w := $res.Width -}}
+{{- $full := $res.Resize (printf "%dx webp q82" (int (math.Min 1400 $w))) -}}
+{{- $small := $res.Resize (printf "%dx webp q80" (int (math.Min 400 $w))) -}}
+{{- $mid := $res.Resize (printf "%dx webp q80" (int (math.Min 700 $w))) -}}
+{{- $large := $res.Resize (printf "%dx webp q82" (int (math.Min 1000 $w))) -}}
+{{- $srcset := printf "%s %dw, %s %dw, %s %dw" $small.RelPermalink $small.Width $mid.RelPermalink $mid.Width $large.RelPermalink $large.Width -}}
+
+{{- if .Parent -}}
+  {{- /* Grid cell. The content column is ~86rem wide, so size the hint off the column count. */ -}}
+  {{- $cols := int (.Parent.Get "cols" | default 3) -}}
+  {{- $cell := div 860 $cols -}}
+<figure>
+  <a href="{{ $full.RelPermalink }}" target="_blank" rel="noopener">
+    <img src="{{ $mid.RelPermalink }}" srcset="{{ $srcset }}" sizes="(max-width: 768px) 46vw, {{ $cell }}px"
+         width="{{ $mid.Width }}" height="{{ $mid.Height }}"
+         alt="{{ $alt }}" loading="lazy" decoding="async">
+  </a>
+  {{- with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- else -}}
+  {{- $ratio := div (float $res.Width) (float $res.Height) -}}
+  {{- $shape := cond (lt $ratio 0.95) "portrait" (cond (lt $ratio 1.3) "square" "landscape") -}}
+  {{- $maxw := index (dict "portrait" "440px" "square" "520px" "landscape" "860px") $shape -}}
+<figure class="photo-figure photo-figure--{{ $shape }}">
+  <a href="{{ $full.RelPermalink }}" target="_blank" rel="noopener">
+    <img src="{{ $mid.RelPermalink }}" srcset="{{ $srcset }}" sizes="(max-width: 768px) 92vw, {{ $maxw }}"
+         width="{{ $mid.Width }}" height="{{ $mid.Height }}"
+         alt="{{ $alt }}" loading="lazy" decoding="async">
+  </a>
+  {{- with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- end -}}
