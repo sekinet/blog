@@ -4,6 +4,10 @@ title = "TARORIN's Blog"
 theme = "hugo-coder"
 defaultcontentlanguage = "en"
 
+# Photo posts generate WebP renditions from a cold cache on every deploy;
+# Hugo's default 30s per-page render timeout is too tight for that.
+timeout = "180s"
+
 paginate = 20
 
 pygmentsstyle = "bw"

@@ -1,0 +1,7 @@
+{{- /* Responsive photo grid. Wraps `photo` shortcodes.
+       Usage: {{< gallery cols="3" >}} ...{{< photo ... >}}... {{< /gallery >}} */ -}}
+{{- $cols := .Get "cols" -}}
+{{- partial "photo-styles.html" .Page -}}
+<div class="photo-grid{{ with $cols }} photo-grid--{{ . }}{{ end }}">
+{{ .Inner }}
+</div>

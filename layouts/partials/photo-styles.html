@@ -1,0 +1,27 @@
+{{- if not (.Scratch.Get "photoStyles") -}}
+{{- .Scratch.Set "photoStyles" true -}}
+{{- /* NOTE: hugo-coder sets html{font-size:62.5%}, so 1rem = 10px here. */ -}}
+<style>
+.photo-figure{margin:3.2rem auto;padding:0}
+.photo-figure--portrait{max-width:44rem}
+.photo-figure--square{max-width:52rem}
+.photo-figure--landscape{max-width:100%}
+.photo-figure img{display:block;width:100%;height:auto;border-radius:.6rem}
+.photo-grid{display:grid;gap:1.2rem;margin:3.2rem 0;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.photo-grid--2{grid-template-columns:repeat(2,1fr)}
+.photo-grid--3{grid-template-columns:repeat(3,1fr)}
+.photo-grid--4{grid-template-columns:repeat(4,1fr)}
+.photo-grid figure{margin:0;padding:0}
+.photo-grid img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:.6rem}
+.photo-figure figcaption,.photo-grid figcaption{margin-top:.8rem;font-size:1.4rem;line-height:1.6;text-align:center;color:inherit;opacity:.65}
+.photo-grid figcaption{font-size:1.3rem}
+.photo-figure a,.photo-grid a{display:block;border:0;text-decoration:none}
+.photo-figure img,.photo-grid img{transition:opacity .2s ease}
+.photo-figure a:hover img,.photo-grid a:hover img{opacity:.85}
+@media only screen and (max-width:768px){
+  .photo-grid--3,.photo-grid--4{grid-template-columns:repeat(2,1fr)}
+  .photo-figure{margin:2.4rem auto}
+  .photo-grid{margin:2.4rem 0}
+}
+</style>
+{{- end -}}
