@@ -1,0 +1,13 @@
+{{- /* Markdown link render hook.
+       Opens links to other sites in a new tab, so a reader following a
+       reference does not lose the post. Links back to this site (absolute or
+       relative) keep the default same-tab behaviour.
+       rel="noopener" is required with target="_blank": without it the opened
+       page can reach back through window.opener. */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $external := and $u.Host (ne $u.Host (urls.Parse site.BaseURL).Host) -}}
+<a href="{{ .Destination | safeURL }}"
+   {{- with .Title }} title="{{ . }}"{{ end }}
+   {{- if $external }} target="_blank" rel="noopener"{{ end }}>
+  {{- .Text | safeHTML -}}
+</a>

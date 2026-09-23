@@ -1,0 +1,20 @@
+{{- /* Self-hosted video from a page bundle.
+       Usage: {{< video src="foo.mp4" caption="..." width="720" height="1280" >}}
+       Hugo has no image pipeline for video, so the file is served as-is; pass
+       width/height to reserve the box before metadata loads (no layout shift). */ -}}
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- $caption := .Get "caption" | default "" -}}
+{{- $res := .Page.Resources.GetMatch $src -}}
+{{- if not $res -}}
+  {{- errorf "video shortcode: %q not found next to %s (%s)" $src .Page.File.Path .Position -}}
+{{- end -}}
+{{- partial "photo-styles.html" .Page -}}
+
+{{- $w := .Get "width" -}}
+{{- $h := .Get "height" -}}
+{{- $shape := .Get "orientation" | default "portrait" -}}
+<figure class="photo-figure photo-figure--{{ $shape }}">
+  <video src="{{ $res.RelPermalink }}" controls preload="metadata" playsinline
+         {{- with $w }} width="{{ . }}"{{ end }}{{ with $h }} height="{{ . }}"{{ end }}></video>
+  {{- with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
