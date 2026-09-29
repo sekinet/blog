@@ -4,6 +4,9 @@ title = "TARORIN's Blog"
 theme = "hugo-coder"
 defaultcontentlanguage = "en"
 
+# Serve layouts/robots.txt so crawlers are pointed at the sitemap.
+enableRobotsTXT = true
+
 # Photo posts generate WebP renditions from a cold cache on every deploy;
 # Hugo's default 30s per-page render timeout is too tight for that.
 timeout = "180s"
